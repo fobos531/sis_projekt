@@ -1,5 +1,6 @@
 const Student = require("../models/student");
 const StudentEncrypted = require("../models/studentEncrypted");
+const mysqlDb = require("../db/mysql");
 
 exports.addPlain = async (req, res) => {
   try {
@@ -20,7 +21,7 @@ exports.addEncrypted = async (req, res) => {
   }
 };
 
-exports.getAll = async (req, res) => {
+exports.getAllEncryption = async (req, res) => {
   try {
     const plain = await Student.find();
     const encrypted = await StudentEncrypted.find().lean();
@@ -28,5 +29,31 @@ exports.getAll = async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(400).json({ success: false, error });
+  }
+};
+
+exports.getAllInjectionSafe = async (req, res) => {
+  const { phoneNumber } = req.query;
+
+  try {
+    const connection = await mysqlDb();
+    const [students] = await connection.execute("SELECT * FROM students WHERE phoneNumber = ?", [phoneNumber]);
+    res.status(200).json(students);
+  } catch (error) {
+    res.status(400).send({ success: false, error });
+  }
+};
+
+exports.getAllInjectionUnsafe = async (req, res) => {
+  const { phoneNumber } = req.query;
+
+  console.log(`SELECT * FROM students WHERE phoneNumber = '${phoneNumber}'`);
+
+  try {
+    const connection = await mysqlDb();
+    const [students] = await connection.execute(`SELECT * FROM students WHERE phoneNumber = '${phoneNumber}'`);
+    res.status(200).json(students);
+  } catch (error) {
+    res.status(400).send({ success: false, error });
   }
 };

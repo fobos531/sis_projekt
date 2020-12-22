@@ -12,7 +12,7 @@ const DataTable = ({ data }) => {
       </thead>
       <tbody>
         {data.map((row) => (
-          <tr key={row._id}>
+          <tr key={row._id || row.id}>
             <td>{row.name}</td>
             <td>{row.phoneNumber}</td>
           </tr>
