@@ -1,6 +1,7 @@
 const Student = require("../models/student");
 const StudentEncrypted = require("../models/studentEncrypted");
 const mysqlDb = require("../db/mysql");
+const StudentValidation = require("../models/studentValidation");
 
 exports.addPlain = async (req, res) => {
   try {
@@ -47,12 +48,37 @@ exports.getAllInjectionSafe = async (req, res) => {
 exports.getAllInjectionUnsafe = async (req, res) => {
   const { phoneNumber } = req.query;
 
-  console.log(`SELECT * FROM students WHERE phoneNumber = '${phoneNumber}'`);
-
   try {
     const connection = await mysqlDb();
     const [students] = await connection.execute(`SELECT * FROM students WHERE phoneNumber = '${phoneNumber}'`);
     res.status(200).json(students);
+  } catch (error) {
+    res.status(400).send({ success: false, error });
+  }
+};
+
+exports.userInterfaceValidation = async (req, res) => {
+  let { enforced } = req.params;
+
+  enforced = enforced == "true" ? true : false;
+  let student;
+
+  try {
+    if (enforced) {
+      student = await new StudentValidation({ ...req.body }).save();
+    } else {
+      student = await new Student({ ...req.body }).save();
+    }
+    res.status(200).json(student);
+  } catch (error) {
+    res.status(400).send({ success: false, error });
+  }
+};
+
+exports.getStudentsValidation = async (req, res) => {
+  try {
+    const students = await StudentValidation.find();
+    res.status(200).send({ sucess: true, data: students });
   } catch (error) {
     res.status(400).send({ success: false, error });
   }

@@ -1,44 +1,52 @@
 import React, { useState, useEffect } from "react";
-import { Row, Col } from "react-bootstrap";
+import { Row } from "react-bootstrap";
+import * as Yup from "yup";
 
+import "yup-phone";
+import Column from "../../components/Column";
 import DataTable from "../../components/DataTable";
-import InputForm from "../../components/InputForm";
+import InputForm from "./components/InputForm";
 import api from "../../utils/api";
 
+const validationSchema = Yup.object({
+  name: Yup.string()
+    .required("Name is required!")
+    .matches(/^[a-zA-ZćčšžđĆČŠŽĐ ]+$/u, "Please enter a valid name!"),
+  phoneNumber: Yup.string().phone(null, false, "Phone number is invalid!"),
+});
+
 const Validation = () => {
-  const [studentsPlain, setStudentsPlain] = useState([]);
-  const [studentsEncrypted, setStudentsEncrypted] = useState([]);
+  const [studentsValidation, setStudentsValidation] = useState([]);
 
   useEffect(() => {
-    api.get("/student").then(({ data }) => {
-      setStudentsPlain(data.data.plain);
-      setStudentsEncrypted(data.data.encrypted);
+    api.get("/student/user_interface/validation/").then(({ data }) => {
+      setStudentsValidation(data.data.students);
     });
   }, []);
 
-  const handleAddStudent = (data) => {
-    api.post("/student/plain", data).then(({ data }) => {
-      setStudentsPlain((old) => [...old, data.student]);
-    });
-  };
-
-  const handleAddStudentEncrypted = (data) => {
-    api.post("/student/encrypted", data).then(({ data }) => {
-      setStudentsEncrypted((old) => [...old, data.student]);
+  const handleSubmit = (mode, values) => {
+    api.post(`/student/user_interface/validation/${mode}`, values).then(({ data }) => {
+      setStudentsValidation((old) => [...old, data]);
     });
   };
 
   return (
-    <Row>
-      <Col lg="6" xl="6" md="6">
-        <InputForm onSubmit={handleAddStudent} />
-        <DataTable data={studentsPlain} />
-      </Col>
-      <Col lg="6" xl="6" md="6">
-        <InputForm onSubmit={handleAddStudentEncrypted} />
-        <DataTable data={studentsEncrypted} />
-      </Col>
-    </Row>
+    <>
+      <div className="text-center">
+        <h1 className="display-4 my-4">Input Validation</h1>
+      </div>
+      <Row>
+        <Column bad>
+          <InputForm onSubmit={handleSubmit} />
+        </Column>
+        <Column good>
+          <InputForm validationSchema={validationSchema} onSubmit={handleSubmit} />
+        </Column>
+      </Row>
+      <Row>
+        <DataTable data={studentsValidation} />
+      </Row>
+    </>
   );
 };
 
