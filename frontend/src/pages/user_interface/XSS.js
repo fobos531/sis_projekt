@@ -25,9 +25,8 @@ const XSS = () => {
   return (
     <>
       <div className="text-center">
-        <h1 className="display-4 my-4">Input Validation</h1>
+        <h1 className="display-4 my-4">XSS</h1>
       </div>
-      {/* <InnerHTML html={neDela} /> */}
       <Row>
         <Column bad width={12}>
           <InputForm onSubmit={handleSubmit} />
