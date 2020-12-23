@@ -11,6 +11,7 @@ import JWT from "./pages/authentication_authorization/JWT";
 import Session from "./pages/authentication_authorization/Session";
 import Encryption from "./pages/database/Encryption";
 import Injection from "./pages/database/Injection";
+import EncryptedTraffic from "./pages/network_traffic/Encrypted_Traffic";
 import CORS from "./pages/network_traffic/CORS";
 import CSRF from "./pages/network_traffic/CSRF";
 import Validation from "./pages/user_interface/Validation";
@@ -30,6 +31,7 @@ const App = () => {
           <Route path="/database/encryption" component={Encryption} />
           <Route path="/database/injection" component={Injection} />
 
+          <Route path="/network_traffic/encrypted_traffic" component={EncryptedTraffic} />
           <Route path="/network_traffic/cors" component={CORS} />
           <Route path="/network_traffic/csrf" component={CSRF} />
 

@@ -31,6 +31,9 @@ const Menu = () => {
       </NavDropdown>
 
       <NavDropdown title="Network traffic">
+        <NavDropdown.Item as={NavLink} to="/network_traffic/encrypted_traffic">
+          Encrypted traffic
+        </NavDropdown.Item>
         <NavDropdown.Item as={NavLink} to="/network_traffic/cors">
           CORS
         </NavDropdown.Item>
