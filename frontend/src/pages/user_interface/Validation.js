@@ -17,16 +17,19 @@ const validationSchema = Yup.object({
 
 const Validation = () => {
   const [studentsValidation, setStudentsValidation] = useState([]);
+  const [studentsNoValidation, setStudentsNoValidation] = useState([]);
 
   useEffect(() => {
     api.get("/student/user_interface/validation/").then(({ data }) => {
-      setStudentsValidation(data.data.students);
+      setStudentsValidation(data.data.validation);
+      setStudentsNoValidation(data.data.normal);
     });
   }, []);
 
   const handleSubmit = (mode, values) => {
     api.post(`/student/user_interface/validation/${mode}`, values).then(({ data }) => {
-      setStudentsValidation((old) => [...old, data]);
+      if (mode === "true") setStudentsValidation((old) => [...old, data]);
+      else setStudentsNoValidation((old) => [...old, data]);
     });
   };
 
@@ -38,13 +41,12 @@ const Validation = () => {
       <Row>
         <Column bad>
           <InputForm onSubmit={handleSubmit} />
+          <DataTable data={studentsNoValidation} />
         </Column>
         <Column good>
           <InputForm validationSchema={validationSchema} onSubmit={handleSubmit} />
+          <DataTable data={studentsValidation} />
         </Column>
-      </Row>
-      <Row>
-        <DataTable data={studentsValidation} />
       </Row>
     </>
   );

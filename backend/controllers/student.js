@@ -77,8 +77,9 @@ exports.userInterfaceValidation = async (req, res) => {
 
 exports.getStudentsValidation = async (req, res) => {
   try {
-    const students = await StudentValidation.find();
-    res.status(200).send({ sucess: true, data: students });
+    const validation = await StudentValidation.find();
+    const normal = await Student.find();
+    res.status(200).send({ sucess: true, data: { validation, normal } });
   } catch (error) {
     res.status(400).send({ success: false, error });
   }
