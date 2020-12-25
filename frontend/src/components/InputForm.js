@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Form, Button } from "react-bootstrap";
 
-const InputForm = ({ onSubmit }) => {
+const InputForm = ({ onSubmit, buttonTitle = "Add" }) => {
   const [input, setInput] = useState({ name: "", phoneNumber: "" });
 
   return (
@@ -19,7 +19,7 @@ const InputForm = ({ onSubmit }) => {
         />
       </Form.Group>
       <Button onClick={() => onSubmit(input)} variant="primary">
-        Add
+        {buttonTitle}
       </Button>
     </Form>
   );

@@ -84,3 +84,29 @@ exports.getStudentsValidation = async (req, res) => {
     res.status(400).send({ success: false, error });
   }
 };
+
+exports.editStudent = async (req, res) => {
+  const { phoneNumber } = req.params;
+  const { name } = req.body;
+
+  try {
+    const connection = await mysqlDb();
+    const result = await connection.execute("UPDATE students SET name=? WHERE phoneNumber=?", [name, phoneNumber]);
+    console.log("Query result", result);
+    res.status(200).json({ success: true });
+  } catch (error) {
+    console.log(error);
+    res.status(400).send({ success: false, error });
+  }
+};
+
+exports.getAllMySQL = async (req, res) => {
+  console.log("BOSSSSS");
+  try {
+    const connection = await mysqlDb();
+    const [students] = await connection.execute("SELECT * FROM students");
+    res.status(200).json({ success: true, data: students });
+  } catch (error) {
+    res.status(400).send({ success: false, error });
+  }
+};
