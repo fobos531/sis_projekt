@@ -19,7 +19,7 @@ mongoose
   .then(() => console.log("Connected to MongoDB database!"));
 
 app.use(cookieParser());
-app.use(cors({ origin: "http://localhost:3000" }));
+app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
 app.use(express.json());
 app.use("/api", routes);
 

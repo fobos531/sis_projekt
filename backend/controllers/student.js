@@ -2,6 +2,7 @@ const Student = require("../models/student");
 const StudentEncrypted = require("../models/studentEncrypted");
 const mysqlDb = require("../db/mysql");
 const StudentValidation = require("../models/studentValidation");
+const jwt = require("jsonwebtoken");
 
 exports.addPlain = async (req, res) => {
   try {
@@ -101,7 +102,6 @@ exports.editStudent = async (req, res) => {
 };
 
 exports.getAllMySQL = async (req, res) => {
-  console.log("BOSSSSS");
   try {
     const connection = await mysqlDb();
     const [students] = await connection.execute("SELECT * FROM students");
