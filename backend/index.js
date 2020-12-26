@@ -13,10 +13,20 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const csrf = require("csurf");
 const csrfProtection = csrf({ cookie: true });
+const session = require("express-session");
 
 mongoose
   .connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log("Connected to MongoDB database!"));
+
+app.use(
+  session({
+    secret: "bossica",
+    resave: false,
+    saveUninitialized: false,
+    cookie: { secure: false, httpOnly: true, sameSite: true, maxAge: 600000 },
+  })
+);
 
 app.use(cookieParser());
 app.use(cors({ credentials: true, origin: "http://localhost:3000" }));

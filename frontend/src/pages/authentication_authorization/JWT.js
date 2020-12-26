@@ -11,7 +11,7 @@ const JWT = () => {
 
   const handleSubmit = (values) => {
     api
-      .post("/user/auth/login", values)
+      .post("/user/auth/login-jwt", values)
       .then(({ data }) => {
         console.log(data);
         alert("You are logged in and an authentication cookie has been created for you!");
@@ -24,7 +24,7 @@ const JWT = () => {
 
   const fetchStudents = () => {
     api
-      .get("/student/auth/students")
+      .get("/student/auth/students-jwt")
       .then(({ data }) => {
         setStudents(data.data);
       })
@@ -42,10 +42,13 @@ const JWT = () => {
           <LoginForm onSubmit={handleSubmit} />
         </Col>
         <Col className="text-center">
-          <Button variant="primary" onClick={fetchStudents}>
-            Fetch students
-          </Button>
-          <DataTable data={students} />
+          {!students.length ? (
+            <Button variant="primary" onClick={fetchStudents}>
+              Fetch students
+            </Button>
+          ) : (
+            <DataTable data={students} />
+          )}
         </Col>
       </Row>
       <Row></Row>
