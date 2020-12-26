@@ -42,10 +42,13 @@ const Session = () => {
           <LoginForm onSubmit={handleSubmit} />
         </Col>
         <Col className="text-center">
-          <Button variant="primary" onClick={fetchStudents}>
-            Fetch students
-          </Button>
-          <DataTable data={students} />
+          {!students.length ? (
+            <Button variant="primary" onClick={fetchStudents}>
+              Fetch students
+            </Button>
+          ) : (
+            <DataTable data={students} />
+          )}
         </Col>
       </Row>
       <Row></Row>

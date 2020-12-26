@@ -8,12 +8,6 @@ const Menu = () => {
     <Navbar variant="pills">
       <Navbar.Brand href="/">SIS Projekt</Navbar.Brand>
       <NavDropdown title="Authentication & Authorization">
-        <NavDropdown.Item as={NavLink} to="/authentication/access_control">
-          Access control
-        </NavDropdown.Item>
-        <NavDropdown.Item as={NavLink} to="/authentication/authentication_vulnerabilities">
-          Authentication vulnerabilities
-        </NavDropdown.Item>
         <NavDropdown.Item as={NavLink} to="/authentication/jwt">
           JSON Web Tokens
         </NavDropdown.Item>

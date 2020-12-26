@@ -5,8 +5,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.css";
 
 import Menu from "./pages/index";
-import AccessControl from "./pages/authentication_authorization/AccessControl";
-import AuthenticationVulnerabilities from "./pages/authentication_authorization/AuthenticationVuln";
+
 import JWT from "./pages/authentication_authorization/JWT";
 import Session from "./pages/authentication_authorization/Session";
 import Encryption from "./pages/database/Encryption";
@@ -23,8 +22,6 @@ const App = () => {
       <Router>
         <Menu />
         <Switch>
-          <Route path="/authentication/access_control" component={AccessControl} />
-          <Route path="/authentication/authentication_vulnerabilities" component={AuthenticationVulnerabilities} />
           <Route path="/authentication/jwt" component={JWT} />
           <Route path="/authentication/session" component={Session} />
 
