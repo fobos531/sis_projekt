@@ -8,7 +8,8 @@ exports.login = async (req, res) => {
         username,
         password,
       },
-      process.env.JWT_SECRET
+      process.env.JWT_SECRET,
+      { expiresIn: 600000 }
     );
 
     res.cookie("Authorization", `Bearer ${token}`, { httpOnly: true, sameSite: "strict", maxAge: 600000 });
